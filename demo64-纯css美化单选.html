@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        .chooseGraphical>label {
+            display: block;
+            float: left;
+            margin: 0 10px 0 0;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .chooseGraphical>label>input {
+            position: absolute;
+            top: 0;
+            left: -20px;
+        }
+
+        .chooseGraphical>label>div {
+            width: 75px;
+            text-align: center;
+            border: #dddddd solid 1px;
+            height: 30px;
+            line-height: 30px;
+            color: #333;
+            user-select: none;
+            overflow: hidden;
+            position: relative;
+            border-radius: 5px;
+        }
+
+        .chooseGraphical>label>input:checked+div {
+            border: #d51917 solid 1px;
+            color: #d51917;
+        }
+
+        .chooseGraphical>label>input:disabled+div {
+            color: #ccc;
+        }
+
+        .chooseGraphical>label>input:checked+div:after {
+            content: "";
+            display: block;
+            width: 20px;
+            height: 20px;
+            background-color: #d51917;
+            transform: skewY(-45deg);
+            position: absolute;
+            bottom: -10px;
+            right: 0;
+            z-index: 1;
+        }
+
+        .chooseGraphical>label>input:checked+div:before {
+            content: "";
+            display: block;
+            width: 4px;
+            height: 8px;
+            border-right: #ffffff solid 2px;
+            border-bottom: #ffffff solid 2px;
+            transform: rotate(35deg);
+            position: absolute;
+            bottom: 2px;
+            right: 4px;
+            z-index: 2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chooseGraphical">
+        <label>
+            <input type="radio" name="chooseGraphical" value="0" />
+            <div>否</div>
+        </label>
+        <label>
+            <input type="radio" name="chooseGraphical" value="1" />
+            <div>是</div>
+        </label>
+    </div>
+    <script></script>
+</body>
+
+</html>

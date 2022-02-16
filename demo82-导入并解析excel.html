@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>导入并解析excel</title>
+    <link rel="stylesheet" href="../static/css/pico.min.css">
+</head>
+
+<body>
+    <article>
+        <header>导入并解析excel</header>
+        <div id="result" contenteditable="">
+            <!-- 表格区域 -->
+        </div>
+        <footer>
+            <input type="file" name="file" id="fileTest" multiple="multiple"
+                onchange="readWorkbookFromLocalFile(event)">
+        </footer>
+    </article>
+
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script>
+        // 读取本地excel文件
+        function readWorkbookFromLocalFile(event,) {
+            var file = event.target.files[0]
+            console.log(file);
+            var reader = new FileReader();
+            reader.readAsArrayBuffer(file); // 该方法用于启动读取指定的 Blob 或 File 内容
+
+            reader.onload = function (e) {
+                var data = e.target.result;
+                var workbook = XLSX.read(data, { type: 'binary' });
+                readWorkbook(workbook)
+            };
+        }
+
+        // 解析excel文件
+        function readWorkbook(workbook) {
+            var sheetNames = workbook.SheetNames; // 工作表名称集合
+            var worksheet = workbook.Sheets[sheetNames[0]]; // 这里我们只读取第一张sheet
+
+            // var res = XLSX.utils.sheet_to_csv(worksheet); // csv格式
+            // var res = XLSX.utils.sheet_to_txt(worksheet); // 纯文本
+            var res = XLSX.utils.sheet_to_html(worksheet); // 直接返回一个html结构
+            // var res = XLSX.utils.sheet_to_json(worksheet); // json格式返回数据
+
+            // 拿到的html结构包含html标签和body标签，使用下列方法去除
+            var html = document.createElement('html')
+            html.innerHTML = res
+            var table = html.getElementsByTagName("table")[0];
+            document.getElementById('result').appendChild(table) // 将拿到的table结构放到指定的dom中
+
+            // 调用方法将csv转换成table结构再放到指定dom
+            // document.getElementById('result').innerHTML = csv2table(res);
+        }
+
+        // 将csv格式转换成表格，会忽略单元格合并，在第一行和第一列追加类似excel的索引
+        function csv2table(csv) {
+            var html = '<table role="grid">';
+            var rows = csv.split('\n');
+            rows.pop(); // 最后一行没用的
+            rows.forEach(function (row, idx) {
+                var columns = row.split(',');
+                columns.unshift(idx + 1); // 添加行索引
+                if (idx == 0) { // 添加列索引
+                    html += '<tr>';
+                    for (var i = 0; i < columns.length; i++) {
+                        html += '<th>' + (i == 0 ? '' : String.fromCharCode(65 + i - 1)) + '</th>';
+                    }
+                    html += '</tr>';
+                }
+                html += '<tr>';
+                columns.forEach(function (column) {
+                    html += '<td>' + column + '</td>';
+                });
+                html += '</tr>';
+            });
+            html += '</table>';
+            return html;
+        }
+    </script>
+</body>
+
+</html>

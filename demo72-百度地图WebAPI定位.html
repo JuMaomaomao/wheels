@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="allmap" style="height: 900px"></div>
+    <script src="../static/js/jquery-1.12.4.min.js"></script>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <script src="http://api.map.baidu.com/api?v=2.0&ak=jvTLj8eLwkvZarOV4EepqSnZqfcABcT3"></script>
+    <script>
+        var ipStr = returnCitySN['cip']
+        var akStr = "jvTLj8eLwkvZarOV4EepqSnZqfcABcT3"
+        var map = new BMap.Map("allmap")
+        map.enableScrollWheelZoom(); // 滚轮缩放地图
+
+        // API 普通ip定位
+        $.ajax({
+            type: "GET",
+            url: `https://api.map.baidu.com/location/ip?ak=${akStr}&coor=bd09ll`,
+            dataType: "jsonp",
+            success: function (result) {
+                console.log(result);
+                // var point = new BMap.Point(result.content.point.x, result.content.point.y)
+                // console.log(point);
+                var mk = new BMap.Marker(point);
+                map.addOverlay(mk);
+                map.centerAndZoom(point, 12);
+                map.panTo(point);
+            },
+        });
+    </script>
+</body>
+
+</html>

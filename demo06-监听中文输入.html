@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+
+    <body>
+        <span></span>
+        <input type="text" name="" id="ipt" />
+
+        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+        <script>
+            // 输入中文时不触发自定义事件
+            // 原理是监听中文输入事件始末，设置变量
+            var flag = true;
+            $("#ipt").on({
+                compositionstart: function () {
+                    flag = false;
+                },
+                compositionend: function () {
+                    flag = true;
+                },
+                input: function () {
+                    var _this = this;
+                    // 定时器降低任务优先级，等中文输入完成时，flag变为true之后再进入到判断
+                    setTimeout(function () {
+                        if (flag) {
+                            var searchStr = $("#ipt").val();
+                            searchStr.trim() && console.log("触发了input事件");
+                        }
+                    }, 0);
+                },
+            });
+        </script>
+    </body>
+</html>

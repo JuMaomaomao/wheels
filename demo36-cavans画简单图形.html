@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="400" height="250" style="border: 1px solid #000;">
+        您的浏览器不支持 Canvas
+    </canvas>
+    <script>
+        var c = document.getElementById("myCanvas")
+        var ctx = c.getContext("2d")
+
+        // 填充矩形
+        // fillRect(x,y,width,height) 方法定义了矩形当前的填充方式。
+        ctx.fillStyle = "#eee"
+        ctx.fillRect(0, 0, 200, 125)
+
+        // 画一条直线
+        // moveTo(x,y) 定义线条开始坐标
+        // lineTo(x,y) 定义线条结束坐标
+        ctx.moveTo(0, 0)
+        ctx.lineTo(400, 250)
+        ctx.stroke()
+
+        // 画一个圆
+        // arc(x,y,r,start,stop)
+        ctx.beginPath();
+        ctx.arc(200, 125, 80, 0, 2 * Math.PI);
+        ctx.stroke();
+    </script>
+</body>
+
+</html>
